@@ -1,0 +1,17 @@
+XBMC-SHELL - a mplayer lookalike xbmc playlist manager
+
+Dead simple thingie that lets me manage my xbmc from a shell on that machine.
+
+A simple thing as play a album:
+xbmc-shell Music/Artist/Album/
+
+Play a specific file:
+xbmc-shell Music/song.mp3
+
+Play multiple files
+
+xbmc-shell Music/song1.mp3 Music/song2.mp3
+
+Control the player:
+xbmc-shell Pause
+xbmc-shell Next

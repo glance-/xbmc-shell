@@ -1,0 +1,47 @@
+#!/bin/bash
+
+case "$1" in
+	Play|Stop|Forward|Rewind|Next|Previous|BigSkipForward|BigSkipBackward|SmallSkipForward|SmallSkipBackward|Random|RandomOn|RandomOff|Repeat|RepeatOne|RepeatAll|RepeatOff)
+		xbmc-send -a "PlayerControl($1)"
+		;;
+	Clear)
+		xbmc-send -a "Playlist.Clear"
+		;;
+#	*)
+#		FILE=$(tempfile --prefix $(basename "$0") --suffix .xsp)
+#
+#		echo '<?xml version="1.0"?>' > $FILE
+#		echo '<smartplaylist type="music">' >> $FILE
+#		echo "<name>$(basename "$0") gereated playlist</name>" >> $FILE
+#		echo '<match>all</match>' >> $FILE
+#		while [ ! "$#" = "0" ]; do
+#			echo "<rule field=\"filename\" operator=\"is\">$(basename "$1")</rule>" >> $FILE
+#			shift
+#		done
+#		echo '</smartplaylist>' >> $FILE
+#		xbmc-send -a "PlayMedia($FILE)"
+#		#cat $FILE
+#		sleep 1
+#		rm $FILE
+#		;;
+	*)
+		#DIR="$HOME/Downloads/"
+		#FILE=$(tempfile --mode 644 --directory=$DIR --prefix=$(basename "$0") --suffix=.m3u8)
+		# Needs to be fixed to show up in stupid xbmc's vfs-layer
+		FILE="$HOME/Downloads/xbmc-shell.m3u"
+		echo -n "" > "$FILE"
+
+		while [ ! "$#" = "0" ]; do
+			if [[ "$1" == "/"* ]] ; then
+				echo "$1" >> "$FILE"
+			else
+				echo "$(dirname "$PWD/$1")/$(basename "$1")" >> "$FILE"
+			fi
+			shift
+		done
+		xbmc-send -a "PlayMedia($FILE)"
+		;;
+#	*)
+#		xbmc-send -a "PlayMedia($(dirname "$PWD/$1"), isdir)"
+#		;;
+esac
