@@ -25,23 +25,31 @@ case "$1" in
 #		rm $FILE
 #		;;
 	*)
-		#DIR="$HOME/Downloads/"
-		#FILE=$(tempfile --mode 644 --directory=$DIR --prefix=$(basename "$0") --suffix=.m3u8)
-		# Needs to be fixed to show up in stupid xbmc's vfs-layer
-		FILE="$HOME/Downloads/xbmc-shell.m3u"
-		echo -n "" > "$FILE"
-
-		while [ ! "$#" = "0" ]; do
-			if [[ "$1" == "/"* ]] ; then
-				echo "$1" >> "$FILE"
-			else
-				echo "$(dirname "$PWD/$1")/$(basename "$1")" >> "$FILE"
+		if [ "$#" = "1" ] ; then
+			if [[ "$1" != "/"* ]] ; then
+				set -- "$(dirname "$PWD/$1")/$(basename "$1")"
 			fi
-			shift
-		done
-		xbmc-send -a "PlayMedia($FILE)"
+			if [ -d "$1" ] ; then
+				ISDIR=", isdir"
+			fi
+			#xbmc-send -a "PlayMedia($(dirname "$PWD/$1")/$(basename "$1")$ISDIR)"
+			xbmc-send -a "PlayMedia(${1}${ISDIR})"
+		else
+			#DIR="$HOME/Downloads/"
+			#FILE=$(tempfile --mode 644 --directory=$DIR --prefix=$(basename "$0") --suffix=.m3u8)
+			# Needs to be fixed to show up in stupid xbmc's vfs-layer
+			FILE="$HOME/Downloads/xbmc-shell.m3u"
+			echo -n "" > "$FILE"
+
+			while [ ! "$#" = "0" ]; do
+				if [[ "$1" == "/"* ]] ; then
+					echo "$1" >> "$FILE"
+				else
+					echo "$(dirname "$PWD/$1")/$(basename "$1")" >> "$FILE"
+				fi
+				shift
+			done
+			xbmc-send -a "PlayMedia($FILE)"
+		fi
 		;;
-#	*)
-#		xbmc-send -a "PlayMedia($(dirname "$PWD/$1"), isdir)"
-#		;;
 esac
