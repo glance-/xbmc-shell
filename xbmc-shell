@@ -8,6 +8,9 @@ case "$1" in
 	Clear)
 		xbmc-send $HOST -a "Playlist.Clear"
 		;;
+	CECStandby|CECToggleState|CECActivateSource)
+		xbmc-send $HOST -a $1
+		;;
 #	*)
 #		FILE=$(tempfile --prefix $(basename "$0") --suffix .xsp)
 #
