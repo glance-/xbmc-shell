@@ -1,11 +1,12 @@
 #!/bin/bash
+HOST="--host=192.168.1.4"
 
 case "$1" in
 	Play|Stop|Forward|Rewind|Next|Previous|BigSkipForward|BigSkipBackward|SmallSkipForward|SmallSkipBackward|Random|RandomOn|RandomOff|Repeat|RepeatOne|RepeatAll|RepeatOff)
-		xbmc-send -a "PlayerControl($1)"
+		xbmc-send $HOST -a "PlayerControl($1)"
 		;;
 	Clear)
-		xbmc-send -a "Playlist.Clear"
+		xbmc-send $HOST -a "Playlist.Clear"
 		;;
 #	*)
 #		FILE=$(tempfile --prefix $(basename "$0") --suffix .xsp)
@@ -19,7 +20,7 @@ case "$1" in
 #			shift
 #		done
 #		echo '</smartplaylist>' >> $FILE
-#		xbmc-send -a "PlayMedia($FILE)"
+#		xbmc-send $HOST -a "PlayMedia($FILE)"
 #		#cat $FILE
 #		sleep 1
 #		rm $FILE
@@ -32,8 +33,8 @@ case "$1" in
 			if [ -d "$1" ] ; then
 				ISDIR=", isdir"
 			fi
-			#xbmc-send -a "PlayMedia($(dirname "$PWD/$1")/$(basename "$1")$ISDIR)"
-			xbmc-send -a "PlayMedia(${1}${ISDIR})"
+			#xbmc-send $HOST -a "PlayMedia($(dirname "$PWD/$1")/$(basename "$1")$ISDIR)"
+			xbmc-send $HOST -a "PlayMedia(${1}${ISDIR})"
 		else
 			#DIR="$HOME/Downloads/"
 			#FILE=$(tempfile --mode 644 --directory=$DIR --prefix=$(basename "$0") --suffix=.m3u8)
@@ -49,7 +50,7 @@ case "$1" in
 				fi
 				shift
 			done
-			xbmc-send -a "PlayMedia($FILE)"
+			xbmc-send $HOST -a "PlayMedia($FILE)"
 		fi
 		;;
 esac
