@@ -1,5 +1,5 @@
 #!/bin/bash
-HOST="--host=192.168.1.4"
+#HOST="--host=192.168.1.4"
 
 case "$1" in
 	Play|Stop|Forward|Rewind|Next|Previous|BigSkipForward|BigSkipBackward|SmallSkipForward|SmallSkipBackward|Random|RandomOn|RandomOff|Repeat|RepeatOne|RepeatAll|RepeatOff)
